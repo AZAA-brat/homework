@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>{% if category %}{{ category.name }}{% else %}Articles{% endif %}</title></head>
+<body>
+<h1>{% if category %}{{ category.name }}{% else %}Articles{% endif %}</h1>
+<form method="get" action="{% url 'article_list' %}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search by title">
+    <button type="submit">Search</button>
+</form>
+<ul>
+    {% for article in articles %}
+    <li><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></li>
+    {% empty %}
+    <li>No articles.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'article_list' %}">All articles</a>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>{{ article.title }}</title></head>
+<body>
+<h1>{{ article.title }}</h1>
+<p>{{ article.text }}</p>
+<p>{{ article.created_at }}</p>
+{% if article.category %}
+<p><a href="{% url 'category' article.category.slug %}">{{ article.category.name }}</a></p>
+{% endif %}
+<a href="{% url 'article_list' %}">All articles</a>
+</body>
+</html>
