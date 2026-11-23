@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Category
+from .models import Article, Category, Feedback
 
 
 admin.site.site_header = "Article magazine"
@@ -8,3 +8,4 @@ admin.site.index_title = "Article management"
 
 admin.site.register(Article)
 admin.site.register(Category)
+admin.site.register(Feedback)

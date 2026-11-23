@@ -1,19 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="utf-8"><title>{% if category %}{{ category.name }}{% else %}Articles{% endif %}</title></head>
-<body>
-<h1>{% if category %}{{ category.name }}{% else %}Articles{% endif %}</h1>
-<form method="get" action="{% url 'article_list' %}">
-    <input type="text" name="q" value="{{ q }}" placeholder="Search by title">
-    <button type="submit">Search</button>
-</form>
-<ul>
-    {% for article in articles %}
-    <li><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></li>
-    {% empty %}
-    <li>No articles.</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'article_list' %}">All articles</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}{% if category %}{{ category.name }}{% else %}Статьи{% endif %}{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">{% if category %}{{ category.name }}{% else %}Статьи{% endif %}</h1>
+
+    <form method="get" action="{% url 'article_list' %}" class="row g-2 mb-4">
+        <div class="col-auto">
+            <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Поиск по заголовку">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </div>
+    </form>
+
+    <div class="list-group">
+        {% for article in articles %}
+            <article class="list-group-item mb-2">
+                <h2 class="h5 mb-1"><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h2>
+                <p class="text-muted small mb-2">
+                    {{ article.created_at|date:"d.m.Y" }}
+                    {% if article.category %}
+                        &middot; <a href="{% url 'category' article.category.slug %}">{{ article.category.name }}</a>
+                    {% endif %}
+                </p>
+                <p class="mb-2">{{ article.text|truncatewords:20 }}</p>
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'article_detail' article.pk %}">Читать</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'article_edit' article.pk %}">Редактировать</a>
+            </article>
+        {% empty %}
+            <div class="alert alert-info">Статей нет.</div>
+        {% endfor %}
+    </div>
+
+    {% if category %}
+        <a class="btn btn-link mt-3" href="{% url 'article_list' %}">Все статьи</a>
+    {% endif %}
+{% endblock %}

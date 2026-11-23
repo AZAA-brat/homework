@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Блог со статьями{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header class="bg-dark">
+    <nav class="container navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'article_list' %}">Article magazine</a>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'article_list' %}">Статьи</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'article_new' %}">Новая статья</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'feedback' %}">Обратная связь</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container flex-grow-1 py-4">
+    {% if messages %}
+        <div class="mb-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+    <div class="container">&copy; 2026 Article magazine</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

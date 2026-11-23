@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="utf-8"><title>{{ article.title }}</title></head>
-<body>
-<h1>{{ article.title }}</h1>
-<p>{{ article.text }}</p>
-<p>{{ article.created_at }}</p>
-{% if article.category %}
-<p><a href="{% url 'category' article.category.slug %}">{{ article.category.name }}</a></p>
-{% endif %}
-<a href="{% url 'article_list' %}">All articles</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <article>
+        <h1 class="mb-2">{{ article.title }}</h1>
+        <p class="text-muted">{{ article.created_at|date:"d.m.Y" }}</p>
+        {% if article.category %}
+            <p><a href="{% url 'category' article.category.slug %}">{{ article.category.name }}</a></p>
+        {% endif %}
+        <p class="lead">{{ article.text|linebreaksbr }}</p>
+    </article>
+
+    <div class="mt-4">
+        <a class="btn btn-outline-secondary" href="{% url 'article_list' %}">Все статьи</a>
+        <a class="btn btn-outline-primary" href="{% url 'article_edit' article.pk %}">Редактировать</a>
+    </div>
+{% endblock %}
